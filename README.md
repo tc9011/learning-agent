@@ -18,14 +18,20 @@ This repository contains code examples and exercises for learning AI Agent devel
 *   `04-rag-basic.js`: A minimal implementation of Retrieval-Augmented Generation (RAG).
     *   **Goal**: Allow LLM to access a "Knowledge Base" (simulated local array) using Vector Embeddings.
     *   **Flow**: Knowledge Base -> Embed -> Vector Store. User Query -> Embed -> Find Similarity -> Prompt + Context -> LLM Answer.
-    *   **Concept**: Vectors allow us to find *semantically similar* text, even if keywords don't match exactly (e.g., "job" vs "works at").
+
+## Phase 4: Frameworks (Vercel AI SDK)
+
+*   `05-vercel-ai-sdk.js`: Implementing an Agent using the modern Vercel AI SDK (Core).
+    *   **Goal**: Simplify Tool Calling and ReAct loops using a standardized framework.
+    *   **Key Feature**: `maxSteps` allows the model to automatically perform multiple tool calls (Round-trips) to solve complex queries without manual loops.
+    *   **Tech Stack**: Vercel AI SDK, Zod (for type-safe schemas).
 
 ## Setup
 
 1.  Clone the repository.
 2.  Install dependencies: `npm install`.
 3.  Copy `.env.example` to `.env` and add your `GEMINI_API_KEY`.
-4.  Run the examples: `node 04-rag-basic.js`.
+4.  Run the examples: `node 05-vercel-ai-sdk.js`.
 
 ## Troubleshooting
 
