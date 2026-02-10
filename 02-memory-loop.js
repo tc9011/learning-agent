@@ -12,7 +12,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // 🧠 Gemini SDK 提供了 `startChat`，简化了手动维护数组的过程
 // 但底层逻辑是一样的：每次发送 prompt 时，其实都在带上之前的所有历史。
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite-001" });
 
 const chat = model.startChat({
   history: [
