@@ -3,17 +3,21 @@
 // Phase 1-3 我们都是手写 Loop 和 API 调用，现在我们要用工业界最流行的框架。
 // Vercel AI SDK 极大简化了 Tool Calling 和 Streaming 的处理。
 
-import { google } from '@ai-sdk/google'; // 我们用 Google Provider
+import { createGoogleGenerativeAI } from '@ai-sdk/google'; // 使用 createGoogleGenerativeAI 才能传参
 import { generateText, tool } from 'ai';
 import { z } from 'zod'; // 用于定义 Tool Schema
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Vercel SDK 的 Google Provider 比较特殊
+// 默认导出 `google` 只是一个 helper，需要 createGoogleGenerativeAI 才能配置 apiKey
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY
+});
+
 // 必须配置 Google Provider 使用兼容的模型名称
 // (你的 key 只能访问特定的 preview/flash 模型)
-const model = google('gemini-flash-latest', {
-  apiKey: process.env.GEMINI_API_KEY // 显式传递 .env 中的 GEMINI_API_KEY
-}); 
+const model = google('gemini-flash-latest'); 
 
 async function main() {
   console.log("🤖 使用 Vercel AI SDK (Core) 启动 Agent...");
