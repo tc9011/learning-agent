@@ -25,6 +25,7 @@ This repository contains code examples and exercises for learning AI Agent devel
     *   **Goal**: Simplify Tool Calling and ReAct loops using a standardized framework.
     *   **Key Feature**: `maxSteps` allows the model to automatically perform multiple tool calls (Round-trips) to solve complex queries without manual loops.
     *   **Tech Stack**: Vercel AI SDK, Zod (for type-safe schemas).
+    *   **Model**: Uses `gemini-2.0-flash` (Preview) which supports Tool Calling well with a System Prompt.
 
 ## Setup
 
@@ -36,5 +37,6 @@ This repository contains code examples and exercises for learning AI Agent devel
 ## Troubleshooting
 
 If you encounter `429 Too Many Requests` or `404 Not Found` with the Gemini API:
-*   The code is configured to use `gemini-flash-latest` (a stable alias).
+*   The code is configured to use `gemini-2.0-flash`.
 *   If that fails, run `node list-models.js` to see which models are available for your API key, and update the model name in the scripts.
+*   System Prompts ("You have access to tools...") are crucial for some Gemini models to recognize tool availability.
