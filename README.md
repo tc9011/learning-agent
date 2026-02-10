@@ -13,12 +13,19 @@ This repository contains code examples and exercises for learning AI Agent devel
     *   **Goal**: Understand that LLMs don't run code; they output JSON instructions.
     *   **Flow**: User Query -> LLM (Think) -> Tool Call Request -> Execution (You) -> Tool Result -> LLM (Final Answer).
 
+## Phase 3: Memory & State (RAG)
+
+*   `04-rag-basic.js`: A minimal implementation of Retrieval-Augmented Generation (RAG).
+    *   **Goal**: Allow LLM to access a "Knowledge Base" (simulated local array) using Vector Embeddings.
+    *   **Flow**: Knowledge Base -> Embed -> Vector Store. User Query -> Embed -> Find Similarity -> Prompt + Context -> LLM Answer.
+    *   **Concept**: Vectors allow us to find *semantically similar* text, even if keywords don't match exactly (e.g., "job" vs "works at").
+
 ## Setup
 
 1.  Clone the repository.
 2.  Install dependencies: `npm install`.
 3.  Copy `.env.example` to `.env` and add your `GEMINI_API_KEY`.
-4.  Run the examples: `node 03-tool-calling-basic.js`.
+4.  Run the examples: `node 04-rag-basic.js`.
 
 ## Troubleshooting
 
