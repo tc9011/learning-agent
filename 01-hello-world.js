@@ -9,11 +9,11 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function main() {
-  console.log("🤖 正在向 Gemini (gemini-2.0-flash-lite-001) 发送请求...");
+  console.log("🤖 正在向 Gemini (gemini-flash-latest) 发送请求...");
 
   // 获取模型实例
-  // 根据 list-models.js 的结果，使用 gemini-2.0-flash-lite-001 (Lite 模型通常配额更宽松)
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite-001" });
+  // 尝试使用 gemini-flash-latest，这是一个指向最新稳定版 Flash 模型的别名
+  const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
   // 第一次请求：打个招呼
   const prompt1 = "你好！我是汤诚。";
