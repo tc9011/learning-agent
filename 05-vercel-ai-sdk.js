@@ -11,7 +11,9 @@ dotenv.config();
 
 // 必须配置 Google Provider 使用兼容的模型名称
 // (你的 key 只能访问特定的 preview/flash 模型)
-const model = google('gemini-flash-latest'); 
+const model = google('gemini-flash-latest', {
+  apiKey: process.env.GEMINI_API_KEY // 显式传递 .env 中的 GEMINI_API_KEY
+}); 
 
 async function main() {
   console.log("🤖 使用 Vercel AI SDK (Core) 启动 Agent...");
