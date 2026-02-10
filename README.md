@@ -27,12 +27,22 @@ This repository contains code examples and exercises for learning AI Agent devel
     *   **Tech Stack**: Vercel AI SDK, Zod (for type-safe schemas).
     *   **Model**: Uses `gemini-2.0-flash` (Preview) which supports Tool Calling well with a System Prompt.
 
+## Phase 5: Dev Assistant (Local File System)
+
+*   `06-dev-assistant.js`: A CLI Dev Assistant that can explore and read local files.
+    *   **Goal**: Build a practical agent that interacts with the *real environment* (File System), not just mock data.
+    *   **Tools**:
+        *   `ls`: List files in the current directory.
+        *   `read`: Read file contents for analysis.
+    *   **Use Case**: "Explain what this file does", "Check my README", "Find the error in 01-hello-world.js".
+    *   **Concept**: This is the prototype of advanced coding agents like OpenClaw/Cursor.
+
 ## Setup
 
 1.  Clone the repository.
 2.  Install dependencies: `npm install`.
 3.  Copy `.env.example` to `.env` and add your `GEMINI_API_KEY`.
-4.  Run the examples: `node 05-vercel-ai-sdk.js`.
+4.  Run the examples: `node 06-dev-assistant.js`.
 
 ## Troubleshooting
 
