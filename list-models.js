@@ -36,10 +36,17 @@ async function main() {
     console.log(`✅ Found ${data.models.length} models:`);
     const chatModels = data.models
       .filter(m => m.supportedGenerationMethods.includes("generateContent"))
-      .map(m => m.name.replace("models/", "")); // remove prefix for easier copy-paste
+      .map(m => m.name.replace("models/", ""));
 
-    console.log("\n--- Chat Models (Use one of these) ---");
+    const embedModels = data.models
+      .filter(m => m.supportedGenerationMethods.includes("embedContent"))
+      .map(m => m.name.replace("models/", ""));
+
+    console.log("\n--- Chat Models ---");
     chatModels.forEach(name => console.log(`- ${name}`));
+
+    console.log("\n--- Embedding Models ---");
+    embedModels.forEach(name => console.log(`- ${name}`));
 
   } catch (error) {
     console.error("❌ Network Error:", error.message);

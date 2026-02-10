@@ -25,8 +25,8 @@ const knowledgeBase = [
 // 存储向量化的知识库
 let vectorStore = [];
 
-// 获取 Embedding 模型
-const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+// 获取 Embedding 模型 (使用你的 key 支持的唯一 embedding 模型)
+const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
 const chatModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
 // 计算余弦相似度 (Cosine Similarity)
