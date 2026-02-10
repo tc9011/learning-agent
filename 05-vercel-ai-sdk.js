@@ -15,9 +15,10 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GEMINI_API_KEY
 });
 
-// 必须配置 Google Provider 使用兼容的模型名称
-// (你的 key 只能访问特定的 preview/flash 模型)
-const model = google('gemini-flash-latest'); 
+// 使用 gemini-1.5-pro-latest 或者 gemini-1.5-flash-latest
+// 注意：Gemini 的 Tool Calling 在某些旧模型或 Flash Lite 上可能表现不佳，
+// 甚至在 args 传递上出现 undefined。我们尝试换一个更强的模型别名。
+const model = google('gemini-1.5-flash-latest'); 
 
 async function main() {
   console.log("🤖 使用 Vercel AI SDK (Core) 启动 Agent...");
@@ -30,7 +31,9 @@ async function main() {
       location: z.string().describe('The location to get the weather for'),
     }),
     execute: async ({ location }) => {
-      console.log(`[Tool] Fetching weather for ${location}...`);
+      // 防止 undefined，给一个默认值
+      const loc = location || "Unknown";
+      console.log(`[Tool] Fetching weather for ${loc}...`);
       // 模拟 API 返回
       const mockDB = {
         "Shanghai": "Sunny, 25°C",
