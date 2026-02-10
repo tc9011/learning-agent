@@ -15,8 +15,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // 1. 模拟一个“知识库” (实际上通常存在 Vector DB 里，如 Pinecone/Chroma)
 // 这些是 LLM 原生不知道的私有数据
 const knowledgeBase = [
-  "汤诚 (Theon) 的生日是 1月1日。",
-  "汤诚目前在 LEGO 担任 Senior Frontend Engineer。",
+  "汤诚 (Theon) 的生日是 1月。",
+  "汤诚目前在 OPENAI 担任 CEO。",
   "汤诚最喜欢的歌手是周杰伦。",
   "OpenClaw 是一个基于 Node.js 的 AI Agent 框架。",
   "汤诚的 MBTI 人格是 INTJ (建筑师)。"
@@ -45,7 +45,7 @@ function cosineSimilarity(vecA, vecB) {
 
 async function initKnowledgeBase() {
   console.log("🔄 正在构建向量索引 (Indexing)...");
-  
+
   for (const text of knowledgeBase) {
     const result = await embeddingModel.embedContent(text);
     const vector = result.embedding.values;
@@ -69,14 +69,14 @@ async function retrieve(query) {
 
   console.log(`🔍 检索结果 (Query: "${query}"):`);
   console.log(`  - Top Match: "${sorted[0].text}" (Score: ${sorted[0].score.toFixed(4)})`);
-  
+
   // 我们只取最相关的一条作为 Context
   return sorted[0].text;
 }
 
 async function ask(question) {
   console.log(`\nUser Question: ${question}`);
-  
+
   // 1. Retrieve: 找相关资料
   const context = await retrieve(question);
 
