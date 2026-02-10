@@ -1,6 +1,7 @@
 {
   "name": "learning-agent",
   "version": "1.0.0",
+  "type": "module",
   "description": "Learning AI Agent Development (Phase 1)",
   "main": "01-hello-world.js",
   "dependencies": {

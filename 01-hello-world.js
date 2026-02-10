@@ -9,10 +9,11 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 async function main() {
-  console.log("🤖 正在向 Gemini (gemini-2.0-flash) 发送请求...");
+  console.log("🤖 正在向 Gemini (gemini-1.5-flash) 发送请求...");
 
   // 获取模型实例
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+  // 如果遇到 429 Too Many Requests，请尝试使用 gemini-1.5-flash 或 gemini-1.5-pro
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   // 第一次请求：打个招呼
   const prompt1 = "你好！我是汤诚。";
