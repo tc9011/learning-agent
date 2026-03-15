@@ -14,6 +14,8 @@ const tools = {
   getWeather: ({ city }) => {
     console.log(`[System] 正在查询 ${city} 的天气...`);
     const weatherData = {
+      "上海": "晴天，25°C",
+      "北京": "多云，18°C",
       "Shanghai": "Sunny, 25°C",
       "Beijing": "Cloudy, 18°C",
       "London": "Rainy, 12°C"

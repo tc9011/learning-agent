@@ -19,13 +19,13 @@ This repository contains code examples and exercises for learning AI Agent devel
     *   **Goal**: Allow LLM to access a "Knowledge Base" (simulated local array) using Vector Embeddings.
     *   **Flow**: Knowledge Base -> Embed -> Vector Store. User Query -> Embed -> Find Similarity -> Prompt + Context -> LLM Answer.
 
-## Phase 4: Frameworks (Vercel AI SDK)
+## Phase 4: Agent Frameworks
 
-*   `05-vercel-ai-sdk.js`: Implementing an Agent using the modern Vercel AI SDK (Core).
-    *   **Goal**: Simplify Tool Calling and ReAct loops using a standardized framework.
-    *   **Key Feature**: `maxSteps` allows the model to automatically perform multiple tool calls (Round-trips) to solve complex queries without manual loops.
-    *   **Tech Stack**: Vercel AI SDK, Zod (for type-safe schemas).
-    *   **Model**: Uses `gemini-2.0-flash` (Preview) which supports Tool Calling well with a System Prompt.
+*   `05-agent-framework.js`: Implementing an Agent with a framework-style SDK approach.
+    *   **Goal**: Move from hand-written loops to framework-based orchestration for tools and multi-step reasoning.
+    *   **Key Feature**: `stopWhen: stepCountIs(...)` allows the model to automatically perform multiple tool calls (Round-trips) without manually writing the loop.
+    *   **Tech Stack**: `ai` SDK-style abstractions, Zod schema validation, Google provider.
+    *   **Model**: Uses `gemini-3-flash-preview`, with a System Prompt to guide tool usage.
 
 ## Phase 5: Dev Assistant (Local File System)
 
@@ -47,6 +47,6 @@ This repository contains code examples and exercises for learning AI Agent devel
 ## Troubleshooting
 
 If you encounter `429 Too Many Requests` or `404 Not Found` with the Gemini API:
-*   The code is configured to use `gemini-2.0-flash`.
+*   Some examples are configured to use preview Gemini models (for example `gemini-3-flash-preview`).
 *   If that fails, run `node list-models.js` to see which models are available for your API key, and update the model name in the scripts.
 *   System Prompts ("You have access to tools...") are crucial for some Gemini models to recognize tool availability.

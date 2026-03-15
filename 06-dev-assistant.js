@@ -4,7 +4,7 @@
 // 这就是 OpenClaw 的雏形！
 
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText, tool } from 'ai';
+import { generateText, tool, stepCountIs, zodSchema } from 'ai';
 import { z } from 'zod';
 import dotenv from 'dotenv';
 import fs from 'fs/promises';
@@ -18,19 +18,20 @@ const google = createGoogleGenerativeAI({
 });
 
 // 使用 2.0 Flash 模型，速度快且支持 Tool Calling
-const model = google('gemini-2.0-flash'); 
+const model = google('gemini-3-flash-preview');
 
 // 1. 定义文件系统工具 (File System Tools)
 const fsTools = {
   // 列出目录内容
   ls: tool({
     description: 'List files in a directory',
-    parameters: z.object({
-      dirPath: z.string().describe('The directory path to list (relative to current working directory)'),
-    }),
+    inputSchema: zodSchema(z.object({
+      dirPath: z.string().describe('The directory path to list (relative to current working directory). Use "." for the current directory.'),
+    })),
     execute: async ({ dirPath }) => {
       try {
-        const safePath = path.resolve(process.cwd(), dirPath); // 安全起见，只允许当前目录
+        const targetDir = dirPath || '.';
+        const safePath = path.resolve(process.cwd(), targetDir); // 安全起见，只允许当前目录
         const files = await fs.readdir(safePath);
         return files.join('\n');
       } catch (error) {
@@ -42,9 +43,9 @@ const fsTools = {
   // 读取文件内容
   read: tool({
     description: 'Read the contents of a file',
-    parameters: z.object({
+    inputSchema: zodSchema(z.object({
       filePath: z.string().describe('The path to the file to read'),
-    }),
+    })),
     execute: async ({ filePath }) => {
       try {
         const safePath = path.resolve(process.cwd(), filePath);
@@ -59,7 +60,7 @@ const fsTools = {
       }
     },
   }),
-  
+
   // (可选) 写入文件 - 为了安全先不开放写权限，防止误删代码 😅
 };
 
@@ -81,15 +82,17 @@ async function chat() {
 
     try {
       console.log("🤖 Thinking...");
-      
+
       const { text, steps } = await generateText({
         model,
         tools: fsTools,
-        maxSteps: 10, // 允许更多步数，让它能先 ls 再 read
+        stopWhen: stepCountIs(10), // 允许更多步数，让它能先 ls 再 read
         system: `You are a helpful developer assistant running in a Node.js environment.
 You have access to the file system via 'ls' and 'read' tools.
 Your working directory is: ${process.cwd()}
 When asked to analyze code, always read the file content first.
+If you need to inspect the current directory, call ls with dirPath=".".
+If the user mentions README/readme, look for README files and read the relevant one.
 Start by listing files if you are unsure where things are.`,
         prompt: input,
       });
@@ -99,9 +102,11 @@ Start by listing files if you are unsure where things are.`,
       // 打印工具调用日志，让你看到它干了什么
       if (steps) {
         steps.forEach(step => {
-          step.toolCalls.forEach(call => {
-            console.log(`   [Tool Call] ${call.toolName}('${JSON.stringify(call.args)}')`);
-          });
+          if (step.toolCalls && step.toolCalls.length > 0) {
+            step.toolCalls.forEach(call => {
+              console.log(`   [Tool Call] ${call.toolName}(${JSON.stringify(call.input)})`);
+            });
+          }
         });
       }
 
@@ -109,7 +114,9 @@ Start by listing files if you are unsure where things are.`,
       console.error("❌ Error:", error.message);
     }
 
-    chat();
+    if (!rl.closed) {
+      chat();
+    }
   });
 }
 
